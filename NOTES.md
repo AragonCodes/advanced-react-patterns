@@ -72,3 +72,26 @@ function Toggle({children}) {
     </Toggle>
   )
 ```
+
+OR...
+We can use React.Context to be able to retrieve state and logic
+no matter how the 'deeply-nested' components are.
+
+```jsx
+function Toggle({children}) {
+  const [on, setOn] = React.useState(false)
+  const toggle = () => setOn(!on)
+
+  return (
+    <ToggleContext.Provider value={{on, toggle}}>
+      {children}
+    </ToggleContext.Provider>
+  )
+}
+
+// Then inside children components
+function ToggleButton({...props}) {
+  const {on, toggle} = useToggle()
+  return <Switch on={on} onClick={toggle} {...props} />
+}
+```
