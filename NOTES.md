@@ -42,3 +42,33 @@ function updateUser(dispatch, user, updates) {
   )
 }
 ```
+
+## The Compound (composite) Components Pattern
+
+The Compound Components Pattern enables you to provide a set of
+components that implicitly share state for a simple yet powerful declarative API
+for reusable components.
+
+This way of composing exposes state and callbacks to all children,
+allowing us to craft custom UI components that are extendable
+
+```jsx
+function Toggle({children}) {
+  const [on, setOn] = React.useState(false)
+  const toggle = () => setOn(!on)
+
+  return React.Children.map(children, child =>
+    React.cloneElement(child, {on, toggle})
+  )
+}
+
+// Later we can use Toggle to only hold the state and logic
+  return (
+    <Toggle>
+      <ToggleOn>The button is on</ToggleOn>
+      <ToggleOff>The button is off</ToggleOff>
+      <span>Hello</span>
+      <ToggleButton style={{background: 'green'}} />
+    </Toggle>
+  )
+```
